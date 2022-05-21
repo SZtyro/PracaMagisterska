@@ -1,0 +1,26 @@
+<div KeyReader style="width: 100%; display: flex; flex-direction: column;">
+
+    <div style="width: 80%; margin: auto;">
+        <p>
+            Król Karol kupił królowej Karolinie korale koloru koralowego.
+        </p>
+
+        <textarea style="width: 100%;" type="text"></textarea>
+    </div>
+
+    <div>
+        <canvas baseChart [data]="r.chartData" [type]="'bar'" [options]="options"></canvas>
+    </div>
+
+    <!-- <canvas baseChart [data]="pairData" [type]="'bar'" [options]="options2"></canvas> -->
+    <div>
+        <h3>Informacje dla pary: {{selectedPair}}</h3> czasy lotu:
+        <span *ngFor="let item of times" style="font-size: large; padding: 5px;">
+            <strong>{{item | number }}</strong>ms
+        </span>
+        <div>
+            średnia: <strong>{{avgTimes | number}}</strong>ms
+        </div>
+
+    </div>
+</div>
