@@ -1,4 +1,55 @@
-<button [routerLink]="['pageA']">Page A</button>
-<button [routerLink]="['pageB']">Page B</button>
-<input>
-<router-outlet></router-outlet>
+<mat-drawer-container class="example-container" autosize style="height: 100%">
+    <mat-drawer #drawer class="example-sidenav" mode="side" [opened]="screenWidth > 991">
+        <div style="display: flex; flex-direction: column; justify-content: space-between;height: 100%">
+            <div class="column">
+
+
+                <button color="primary" class="menu-btn" mat-button [routerLink]="['home']">
+                    <mat-icon>home</mat-icon>
+                    {{'home' | translate}}
+                </button>
+
+                <button color="primary" class="menu-btn" mat-button [routerLink]="['learning']">
+                    <mat-icon>school</mat-icon>
+                    {{'learning' | translate}}
+                </button>
+
+                <button color="primary" class="menu-btn" mat-button [routerLink]="['tests']">
+                    <mat-icon>biotech</mat-icon>
+                    {{'tests' | translate}}
+                </button>
+
+                <button color="primary" class="menu-btn" mat-button [routerLink]="['summarize']">
+                    <mat-icon>summarize</mat-icon>
+                    {{'summarize' | translate}}
+                </button>
+
+            </div>
+
+            <div class="column">
+                <mat-divider></mat-divider>
+
+                <button (click)="userService.logOut()" translate class="menu-btn" mat-button>
+                    <mat-icon>logout</mat-icon>
+                    {{'log_out' | translate}}
+                </button>
+            </div>
+
+        </div>
+
+    </mat-drawer>
+
+
+
+    <div *ngIf="!isLoading;else loading">
+        <router-outlet></router-outlet>
+    </div>
+    <ng-template #loading>
+        <div style="display:flex; margin-top: 30%; justify-content: center">
+            <mat-spinner></mat-spinner>
+        </div>
+
+    </ng-template>
+
+
+</mat-drawer-container>

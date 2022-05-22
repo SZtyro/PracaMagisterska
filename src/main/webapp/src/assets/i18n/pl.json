@@ -1,0 +1,57 @@
+{
+  "home": "Start",
+  "binds": "Bindy",
+  "binds_to_accept": "Bindy do zatwierdzenia",
+  "categories": "Kategorie",
+  "category": "Kategoria",
+  "register_guild": "Dodaj serwer",
+  "selected_guild": "Wybrany serwer",
+  "selected_channel": "Wybrany kanał",
+  "log_out": "Wyloguj się",
+  "add_bind": "Dodaj binda",
+  "add_category": "Dodaj kategorie",
+  "channel_cannot_be_empty": "Musisz wybrać kanał",
+  "name": "Nazwa",
+  "accept": "Zaakceptuj",
+  "reject": "Odrzuć",
+  "guild": "Serwer",
+  "public": "Publiczny",
+  "register": "Zarejestruj",
+  "save": "Zapisz",
+  "delete": "Usuń",
+  "render": "Renderuj",
+  "open_bind": "Otwórz bind",
+  "play_loop": "Odtwarzaj w pętli",
+  "play_region": "Odtwarzaj od początku fragmentu",
+  "upload_file": "Wgraj plik",
+  "save_and_exit": "Zapisz i wyjdź",
+  "save_and_create": "Zapisz i stwórz nowy",
+  "saving_success": "Zasób został pomyślnie zapisany",
+  "unknown_error": "Nieznany błąd",
+  "message": "Wiadomość",
+  "settings": "Ustawienia",
+  "notifications_channel": "Kanał powiadomień",
+  "title": "Tytuł",
+  "No message available": "Nieznany błąd",
+  "interactions": {
+    "operation_irreversible_write_name": "Operacja jest nieodwracalna. Jeśli chcesz kontynuować wpisz nazwę binda."
+  },
+  "informations": {
+    "only_admin_can_delete": "Tylko administrator serwera może usuwać.",
+    "only_admin_can_accept": "Tylko administrator serwera może zatwierdzić.",
+    "only_headadmin_can_accept_or_reject": "Tylko administrator aplikacji może zatwierdzić/odrzucić publiczny bind lub kategorię.",
+    "only_headadmin_has_access": "Tylko administrator aplikacji ma dostęp.",
+    "forbidden": "Nie masz dostępu do tego zasobu.",
+    "not_found": "Nie znaleziono.",
+    "bind_has_been_not_deleted": "Bind nie został usunięty.",
+    "saving_success": "Zasób został pomyślnie zapisany"
+  },
+  "notifications": {
+    "accepted_bind": "Bind został zaakceptowany.",
+    "messages": {
+      "accepted_bind": "<p>Bind <strong>{{name}}</strong> z kategorii <strong>{{category}}</strong> został zaaktualizowany.</p> "
+    }
+  }
+
+
+}
