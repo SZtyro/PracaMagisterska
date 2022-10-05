@@ -17,6 +17,9 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatButtonModule} from "@angular/material/button";
 import { LearningComponent } from './components/learning/learning.component';
+import { FormsModule } from '@angular/forms';
+import { TestsComponent } from './components/tests/tests.component';
+import {MatToolbarModule} from "@angular/material/toolbar";
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -30,27 +33,30 @@ export function HttpLoaderFactory(http: HttpClient) {
     PageBComponent,
     KeyReaderDirective,
     LearningComponent,
+    TestsComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    NgChartsModule,
-    BrowserAnimationsModule,
-    MatSidenavModule,
-    MatIconModule,
-    MatDividerModule,
-    HttpClientModule,
-    MatButtonModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient],
-      },
-      defaultLanguage: 'pl',
-    }),
-    MatProgressSpinnerModule,
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        NgChartsModule,
+        BrowserAnimationsModule,
+        MatSidenavModule,
+        MatIconModule,
+        MatDividerModule,
+        HttpClientModule,
+        MatButtonModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient],
+            },
+            defaultLanguage: 'pl',
+        }),
+        MatProgressSpinnerModule,
+        FormsModule,
+        MatToolbarModule
+    ],
   providers: [],
   bootstrap: [AppComponent],
 })

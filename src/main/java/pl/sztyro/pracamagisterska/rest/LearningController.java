@@ -15,7 +15,6 @@ import java.util.Optional;
 
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 @RequestMapping("/learning")
 public class LearningController {
 

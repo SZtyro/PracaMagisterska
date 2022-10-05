@@ -1,4 +1,18 @@
-<mat-drawer-container class="example-container" autosize style="height: 100%">
+<script src="app.component.ts"></script>
+<mat-toolbar color="primary">
+  <button (click)="drawer.toggle()" mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span>Praca Magisterska</span>
+  <span class="spacer"></span>
+  <img [src]="userProfile.picture" alt="User image">
+  <div>{{userProfile.name}}</div>
+  <button  (click)="logout()" mat-icon-button>
+    <mat-icon>logout</mat-icon>
+  </button>
+</mat-toolbar>
+
+<mat-drawer-container class="example-container" autosize style="height: calc(100% - 64px)">
     <mat-drawer #drawer class="example-sidenav" mode="side" [opened]="screenWidth > 991">
         <div style="display: flex; flex-direction: column; justify-content: space-between;height: 100%">
             <div class="column">
@@ -26,14 +40,25 @@
 
             </div>
 
-            <div class="column">
-                <mat-divider></mat-divider>
+<!--            <div class="column">-->
+<!--                <mat-divider></mat-divider>-->
 
-                <button (click)="userService.logOut()" translate class="menu-btn" mat-button>
-                    <mat-icon>logout</mat-icon>
-                    {{'log_out' | translate}}
-                </button>
-            </div>
+<!--                <div style="display: flex; width: 100%;">-->
+<!--                  <img [src]="userProfile.picture" alt="User image">-->
+<!--                  <div class="profile-div">-->
+<!--                    <div style="font-weight: bold">{{userProfile.name}}</div>-->
+<!--                    <button (click)="logout()" translate style="width: 100%" mat-button>-->
+<!--                      <mat-icon>logout</mat-icon>-->
+<!--                      {{'log_out' | translate}}-->
+<!--                    </button>-->
+<!--                  </div>-->
+
+<!--                </div>-->
+
+
+
+
+<!--            </div>-->
 
         </div>
 

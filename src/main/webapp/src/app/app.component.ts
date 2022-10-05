@@ -1,24 +1,35 @@
-import { Component, HostListener } from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import { ReaderService } from './reader.service';
-import { UserService } from './services/user.service';
+import {BackendService} from "./services/backend.service";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'Magisterka';
   screenWidth: number = window.innerWidth;
   isLoading: boolean = false;
+  userProfile;
 
   constructor(
     private r : ReaderService,
-    public userService: UserService
+    public backend: BackendService
     ){}
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.screenWidth = window.innerWidth;
+  }
+
+  ngOnInit() {
+    this.backend.getUserProfile().subscribe(
+        profile => this.userProfile = profile
+    )
+  }
+
+  logout(){
+    this.backend.logOut().subscribe(() => window.location.reload())
   }
 }

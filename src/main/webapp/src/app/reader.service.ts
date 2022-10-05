@@ -12,7 +12,7 @@ export class ReaderService {
 
   chartData;
 
-  refresh(){
+  refreshChart(){
     this.chartData = {
       labels: this.arr.map(e => {return e.pair}),
       datasets: [{
@@ -27,6 +27,10 @@ export class ReaderService {
         }),
       }]
     }
+  }
+
+  clearData(){
+    this.arr = []
   }
 
 }

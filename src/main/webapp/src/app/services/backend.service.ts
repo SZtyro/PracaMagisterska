@@ -6,12 +6,21 @@ import { Injectable } from '@angular/core';
 })
 export class BackendService {
 
-  readonly host = 'localhost:8080'
+  readonly host = 'api'
 
   constructor( private http : HttpClient) { }
 
   saveLearningSession(body){
     return this.http.post(`/learning`, body)
   }
+
+  logOut(){
+    return this.http.post(`${this.host}/user/logout`, null)
+  }
+
+  getUserProfile(){
+    return this.http.get(`${this.host}/user`)
+  }
+
 
 }

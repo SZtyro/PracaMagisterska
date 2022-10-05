@@ -14,12 +14,12 @@ export class KeyReaderDirective {
     console.log(e);
     if (this.lastEvent) {
       let pair = this.lastEvent.key + e.key;
-      let i = this.r.arr.findIndex((e) => e.pair == pair);
+      let i = this.service.arr.findIndex((e) => e.pair == pair);
       let time = e.timeStamp - this.lastEvent.timeStamp;
       if (time < this.registeringTime) {
-        if (i > -1) this.r.arr[i].times.push(time);
+        if (i > -1) this.service.arr[i].times.push(time);
         else
-          this.r.arr.push({
+          this.service.arr.push({
             pair: pair,
             times: [time],
           });
@@ -29,9 +29,9 @@ export class KeyReaderDirective {
     }
     this.lastEvent = e;
 
-    console.log(this.r.arr);
-    this.r.refresh();
+    console.log(this.service.arr);
+    this.service.refreshChart();
   }
 
-  constructor(private r: ReaderService) {}
+  constructor(private service: ReaderService) {}
 }
