@@ -76,10 +76,12 @@
               "browserTarget": "Magisterka:build:production"
             },
             "development": {
-              "browserTarget": "Magisterka:build:development"
+              "browserTarget": "Magisterka:build:development",
+              "proxyConfig": "src/proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"
+
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",

@@ -1,6 +1,7 @@
 import {Component, HostListener, OnInit} from '@angular/core';
 import { ReaderService } from './reader.service';
 import {BackendService} from "./services/backend.service";
+import {BiometryService} from "./services/biometry.service";
 
 @Component({
   selector: 'app-root',
@@ -15,7 +16,8 @@ export class AppComponent implements OnInit{
 
   constructor(
     private r : ReaderService,
-    public backend: BackendService
+    public backend: BackendService,
+    private biometry: BiometryService
     ){}
 
   @HostListener('window:resize', ['$event'])

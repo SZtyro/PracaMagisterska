@@ -1,4 +1,4 @@
-import { Directive, HostListener } from '@angular/core';
+import {Directive, HostBinding, HostListener} from '@angular/core';
 import { ReaderService } from './reader.service';
 
 @Directive({
@@ -9,6 +9,10 @@ export class KeyReaderDirective {
 
   //Czass po któym nie liczy zmian ( uzytkownik przestal pisac)
   registeringTime = 2000;
+
+  //Dodanie klasy
+  @HostBinding('class')
+    elementClass = 'reader-area';
 
   @HostListener('keyup', ['$event']) onClick(e: any) {
     console.log(e);

@@ -20,6 +20,7 @@ import { LearningComponent } from './components/learning/learning.component';
 import { FormsModule } from '@angular/forms';
 import { TestsComponent } from './components/tests/tests.component';
 import {MatToolbarModule} from "@angular/material/toolbar";
+import {MatInputModule} from "@angular/material/input";
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -35,28 +36,29 @@ export function HttpLoaderFactory(http: HttpClient) {
     LearningComponent,
     TestsComponent,
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        NgChartsModule,
-        BrowserAnimationsModule,
-        MatSidenavModule,
-        MatIconModule,
-        MatDividerModule,
-        HttpClientModule,
-        MatButtonModule,
-        TranslateModule.forRoot({
-            loader: {
-                provide: TranslateLoader,
-                useFactory: HttpLoaderFactory,
-                deps: [HttpClient],
-            },
-            defaultLanguage: 'pl',
-        }),
-        MatProgressSpinnerModule,
-        FormsModule,
-        MatToolbarModule
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    NgChartsModule,
+    BrowserAnimationsModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatDividerModule,
+    HttpClientModule,
+    MatButtonModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
+      },
+      defaultLanguage: 'pl',
+    }),
+    MatProgressSpinnerModule,
+    FormsModule,
+    MatToolbarModule,
+    MatInputModule
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

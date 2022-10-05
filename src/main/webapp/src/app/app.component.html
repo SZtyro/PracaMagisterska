@@ -5,8 +5,8 @@
   </button>
   <span>Praca Magisterska</span>
   <span class="spacer"></span>
-  <img [src]="userProfile.picture" alt="User image">
-  <div>{{userProfile.name}}</div>
+  <img [src]="userProfile?.picture" alt="User image">
+  <div>{{userProfile?.name}}</div>
   <button  (click)="logout()" mat-icon-button>
     <mat-icon>logout</mat-icon>
   </button>
