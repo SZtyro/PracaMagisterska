@@ -22,13 +22,17 @@ public class UserController extends BaseController{
     public Object getUser(HttpServletRequest request) throws IOException {
 
         Map <String, Object> obj = new HashMap<>();
-        JSONObject profile = new JSONObject(new Gson().toJson(request.getUserPrincipal()))
-                .getJSONObject("userAuthentication")
-                .getJSONObject("details");
+        JSONObject profile = getProfile(request);
         obj.put("name", profile.get("name"));
         obj.put("picture", profile.get("picture"));
         return obj;
 
+    }
+
+    public JSONObject getProfile(HttpServletRequest request) {
+        return new JSONObject(new Gson().toJson(request.getUserPrincipal()))
+                .getJSONObject("userAuthentication")
+                .getJSONObject("details");
     }
 
     @PostMapping("/logout")

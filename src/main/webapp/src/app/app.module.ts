@@ -21,6 +21,8 @@ import { FormsModule } from '@angular/forms';
 import { TestsComponent } from './components/tests/tests.component';
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatInputModule} from "@angular/material/input";
+import { InfoComponent } from './components/info/info.component';
+import {MatExpansionModule} from "@angular/material/expansion";
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -35,30 +37,32 @@ export function HttpLoaderFactory(http: HttpClient) {
     KeyReaderDirective,
     LearningComponent,
     TestsComponent,
+    InfoComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    NgChartsModule,
-    BrowserAnimationsModule,
-    MatSidenavModule,
-    MatIconModule,
-    MatDividerModule,
-    HttpClientModule,
-    MatButtonModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient],
-      },
-      defaultLanguage: 'pl',
-    }),
-    MatProgressSpinnerModule,
-    FormsModule,
-    MatToolbarModule,
-    MatInputModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        NgChartsModule,
+        BrowserAnimationsModule,
+        MatSidenavModule,
+        MatIconModule,
+        MatDividerModule,
+        HttpClientModule,
+        MatButtonModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient],
+            },
+            defaultLanguage: 'pl',
+        }),
+        MatProgressSpinnerModule,
+        FormsModule,
+        MatToolbarModule,
+        MatInputModule,
+        MatExpansionModule
+    ],
   providers: [],
   bootstrap: [AppComponent],
 })

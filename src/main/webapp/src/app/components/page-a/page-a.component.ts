@@ -63,17 +63,17 @@ export class PageAComponent implements OnInit {
         }
         p['labels'] = []
         elem.times.forEach((e,index) => {p['labels'].push(index) })
-        
-        
-        console.log(this.pairData.labels);
-        p['datasets'] = [
-          {
-            label: 'a',
-            data: elem.times,
-          },
-        ];
 
-        this.times = elem.times
+
+        console.log(this.pairData.labels);
+        // p['datasets'] = [
+        //   {
+        //     label: 'a',
+        //     data: elem.times,
+        //   },
+        // ];
+        //
+        // this.times = elem.times
         this.avgTimes = 0;
         elem.times.forEach(e => {
           this.avgTimes += e;
