@@ -28,10 +28,7 @@ export class BiometryService {
       .subscribe(() => {
         if (this.reader.arr.length > 0)
           this.http.post(this.api, this.reader.arr)
-            .subscribe(
-              () => {
-                this.reader.clearData()
-              },
+            .subscribe(() => {this.reader.clearData()},
               console.error
             )
       })
@@ -46,13 +43,10 @@ export class BiometryService {
 
   protect(request: Observable<any>): Observable<any> {
     let subject = new Subject();
-
     this.http.post(this.api, this.reader.arr).subscribe(
-      success => {
-        request.subscribe(subject.next, subject.error)
-      }, subject.error
+      () => {request.subscribe(subject.next, subject.error)},
+      subject.error
     )
-
     return subject;
   }
 }
