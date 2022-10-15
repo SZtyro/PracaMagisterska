@@ -21,5 +21,9 @@ public class UserService {
         return userRepository.findById(email);
     }
 
+    public void saveUser(User user){
+        this.userRepository.save(user);
+    }
+
 
 }

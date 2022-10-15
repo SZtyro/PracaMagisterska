@@ -12,8 +12,8 @@ public class User {
     @Column
     private String email;
 
-//    @OneToMany
-//    private Set<BiometryChunk> biometryChunks;
+    @Column
+    private Integer incompatibilitiesCount = 0;
 
     public String getEmail() {
         return email;
@@ -30,11 +30,11 @@ public class User {
     public User() {
     }
 
-//    public Set<BiometryChunk> getBiometryChunks() {
-//        return biometryChunks;
-//    }
-//
-//    public void setBiometryChunks(Set<BiometryChunk> biometryChunks) {
-//        this.biometryChunks = biometryChunks;
-//    }
+    public Integer getIncompatibilitiesCount() {
+        return incompatibilitiesCount;
+    }
+
+    public void setIncompatibilitiesCount(Integer incompatibilitiesCount) {
+        this.incompatibilitiesCount = incompatibilitiesCount;
+    }
 }

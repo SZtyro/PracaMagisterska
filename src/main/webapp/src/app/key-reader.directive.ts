@@ -11,7 +11,7 @@ export class KeyReaderDirective {
   //Czass po któym nie liczy zmian ( uzytkownik przestal pisac)
   registeringTime = 2000;
   //Znaki wyciągnięte spod kontroli
-  excluded: string[] = [' ']
+  excluded: string[] = [' ', 'Backspace']
 
   //Dodanie klasy
   @HostBinding('class')

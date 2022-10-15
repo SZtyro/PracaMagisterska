@@ -25,6 +25,7 @@ public class BaseController {
     final Double defaultWidth = 70.0;
     final int measurementLimit = 21;
     final int measurementMinimum = 2;
+    final int incompatibilitiesCountLimit = 5;
 
 
     @Autowired
@@ -35,10 +36,9 @@ public class BaseController {
     UserController userController;
 
     @PostMapping("/biometry")
-    void checkBehavior(@RequestBody BiometryChunk[] chunks, HttpServletRequest request) {
+    public void checkBehavior(@RequestBody BiometryChunk[] chunks, HttpServletRequest request) {
 
         String email = userController.getProfile(request).getString("email");
-
         Optional<User> optionalUser = userService.getCurrentUserByEmail(email);
 
         if (!optionalUser.isPresent()) {
@@ -46,13 +46,22 @@ public class BaseController {
             System.out.println("Not logged");
             //throw new HTTPException(401);
         } else {
-            checkLoggedUser(optionalUser.get(), chunks);
+            checkLoggedUser(optionalUser.get(), chunks, request);
         }
-
 
     }
 
-    private void checkLoggedUser(User user, BiometryChunk[] chunksToCheck) {
+    @GetMapping("/biometry")
+    public List<BiometryChunk> getBiometry(HttpServletRequest request){
+        String email = userController.getProfile(request).getString("email");
+        Optional<User> optionalUser = userService.getCurrentUserByEmail(email);
+
+        if(optionalUser.isPresent())
+            return this.biometryChunkService.getUserChunks(optionalUser.get());
+        else return null;
+    }
+
+    private void checkLoggedUser(User user, BiometryChunk[] chunksToCheck, HttpServletRequest request) {
         for (BiometryChunk newChunk : chunksToCheck) {
             BiometryChunk oldChunk = biometryChunkService.getByPairAndUser(newChunk.getPair(), user);
             //System.out.println(chunk.getTimes());
@@ -63,12 +72,19 @@ public class BaseController {
                 biometryChunkService.saveChunk(biometryChunk);
             } else {
                 if (newChunk.getTimes().size() > 0)
-                    checkAndUpdate(oldChunk, newChunk);
+                    if(!checkAndUpdate(oldChunk, newChunk)){
+                        user.setIncompatibilitiesCount(user.getIncompatibilitiesCount() + 1);
+                        if(user.getIncompatibilitiesCount() > 4){
+                            request.getSession().invalidate();
+                            user.setIncompatibilitiesCount(0);
+                            userService.saveUser(user);
+                        }
+                    }
             }
         }
     }
 
-    private void checkAndUpdate(BiometryChunk oldChunk, BiometryChunk newChunk) {
+    private boolean checkAndUpdate(BiometryChunk oldChunk, BiometryChunk newChunk) {
 
         MembershipFunction function = oldChunk.getMembershipFunction();
 
@@ -101,16 +117,18 @@ public class BaseController {
 
             } else {
                 if(functionResult < updateThreshold){
+
                     System.out.println("Wylogowanie dla pary: " + oldChunk.getPair());
-                }else
-                System.out.println("Brak konsekwencji");
-//                System.out.println(
-//                        "Values not in range for pair: " + oldChunk.getPair()
-//                                + "\n srednia dla nowych: " + newChunk.getTimes().stream().mapToDouble(Double::parseDouble).average().getAsDouble()
-//                                + "\n srednia dla starych: " + oldChunk.getTimes().stream().mapToDouble(Double::parseDouble).average().getAsDouble());
-                //throw new Error("Values not in range for pair: " + oldChunk.getPair());
+                    return false;
+
+                }else {
+                    System.out.println("Brak konsekwencji");
+                    return true;
+                }
+
             }
         }
+        return true;
 
     }
 

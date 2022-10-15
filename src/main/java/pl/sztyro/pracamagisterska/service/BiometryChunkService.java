@@ -8,6 +8,8 @@ import pl.sztyro.pracamagisterska.model.User;
 import pl.sztyro.pracamagisterska.repository.BiometryChunkRepository;
 import pl.sztyro.pracamagisterska.repository.MembershipFunctionRepository;
 
+import java.util.List;
+
 @Service
 public class BiometryChunkService {
 
@@ -32,6 +34,10 @@ public class BiometryChunkService {
 
     public void deleteFunction(MembershipFunction membershipFunction){
         this.membershipFunctionRepository.delete(membershipFunction);
+    }
+
+    public List<BiometryChunk> getUserChunks(User user){
+        return this.biometryChunkRepository.getUserChunks(user);
     }
 
 }

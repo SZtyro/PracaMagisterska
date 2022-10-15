@@ -11,4 +11,7 @@ import java.util.List;
 public interface BiometryChunkRepository extends CrudRepository<BiometryChunk, Long> {
     @Query("from BiometryChunk where pair = :pair and appUser = :user")
     BiometryChunk getByPairAndUser(String pair, User user);
+
+    @Query("from  BiometryChunk where appUser = :user")
+    List<BiometryChunk> getUserChunks(User user);
 }

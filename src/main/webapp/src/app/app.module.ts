@@ -23,6 +23,7 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatInputModule} from "@angular/material/input";
 import { InfoComponent } from './components/info/info.component';
 import {MatExpansionModule} from "@angular/material/expansion";
+import {MatCardModule} from "@angular/material/card";
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -61,7 +62,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         FormsModule,
         MatToolbarModule,
         MatInputModule,
-        MatExpansionModule
+        MatExpansionModule,
+        MatCardModule
     ],
   providers: [],
   bootstrap: [AppComponent],
