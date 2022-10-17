@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {interval, Observable, of, Subject, Subscription, timer} from "rxjs";
 import {ReaderService} from "../reader.service";
 import {debounce} from "rxjs/operators";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,7 @@ export class BiometryService {
 
   constructor(
     private http: HttpClient,
+    private router: Router,
     private reader: ReaderService) {
 
     this.controlWork();
@@ -28,8 +30,15 @@ export class BiometryService {
       .subscribe(() => {
         if (this.reader.arr.length > 0)
           this.http.post(this.api, this.reader.arr)
-            .subscribe(() => {this.reader.clearData()},
-              console.error
+            .subscribe(() => {
+                this.reader.clearData();
+                this.router.navigate(['/home'])
+              },
+              error => {
+                if (error.status == 302 || error.status == 401) {
+                  window.location.reload();
+                }
+              }
             )
       })
   }
@@ -44,7 +53,9 @@ export class BiometryService {
   protect(request: Observable<any>): Observable<any> {
     let subject = new Subject();
     this.http.post(this.api, this.reader.arr).subscribe(
-      () => {request.subscribe(subject.next, subject.error)},
+      () => {
+        request.subscribe(subject.next, subject.error)
+      },
       subject.error
     )
     return subject;

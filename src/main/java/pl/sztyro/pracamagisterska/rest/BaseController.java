@@ -1,7 +1,9 @@
 package pl.sztyro.pracamagisterska.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import pl.sztyro.pracamagisterska.model.BiometryChunk;
 import pl.sztyro.pracamagisterska.model.MembershipFunction;
 import pl.sztyro.pracamagisterska.model.User;
@@ -9,6 +11,8 @@ import pl.sztyro.pracamagisterska.service.BiometryChunkService;
 import pl.sztyro.pracamagisterska.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.xml.ws.http.HTTPException;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -52,16 +56,19 @@ public class BaseController {
     }
 
     @GetMapping("/biometry")
-    public List<BiometryChunk> getBiometry(HttpServletRequest request){
+    public List<BiometryChunk> getBiometry(HttpServletRequest request) {
         String email = userController.getProfile(request).getString("email");
         Optional<User> optionalUser = userService.getCurrentUserByEmail(email);
 
-        if(optionalUser.isPresent())
+        if (optionalUser.isPresent())
             return this.biometryChunkService.getUserChunks(optionalUser.get());
-        else return null;
+        else {
+            userService.userRepository.save(new User(email));
+            return null;
+        }
     }
 
-    private void checkLoggedUser(User user, BiometryChunk[] chunksToCheck, HttpServletRequest request) {
+    private void checkLoggedUser(User user, BiometryChunk[] chunksToCheck, HttpServletRequest request){
         for (BiometryChunk newChunk : chunksToCheck) {
             BiometryChunk oldChunk = biometryChunkService.getByPairAndUser(newChunk.getPair(), user);
             //System.out.println(chunk.getTimes());
@@ -72,13 +79,16 @@ public class BaseController {
                 biometryChunkService.saveChunk(biometryChunk);
             } else {
                 if (newChunk.getTimes().size() > 0)
-                    if(!checkAndUpdate(oldChunk, newChunk)){
+                    if (!checkAndUpdate(oldChunk, newChunk)) {
                         user.setIncompatibilitiesCount(user.getIncompatibilitiesCount() + 1);
-                        if(user.getIncompatibilitiesCount() > 4){
+                        if (user.getIncompatibilitiesCount() > incompatibilitiesCountLimit) {
                             request.getSession().invalidate();
                             user.setIncompatibilitiesCount(0);
                             userService.saveUser(user);
-                        }
+                            throw new ResponseStatusException(
+                                    HttpStatus.UNAUTHORIZED);
+                        } else
+                            userService.saveUser(user);
                     }
             }
         }
@@ -101,12 +111,12 @@ public class BaseController {
         int allNewTimes = newChunk.getTimes().size();
 
         //Tylko jeśli jest wiecej pomiarow
-        if(allNewTimes >= measurementMinimum){
+        if (allNewTimes >= measurementMinimum) {
             //Odrzucenie skrajnych wynikow
             double avgOldTimes = mergeAndFilter(null, newChunk).stream().mapToDouble(Double::parseDouble).average().getAsDouble();
             double functionResult = getResult(oldChunk.getMembershipFunction(), avgOldTimes);
 
-            if (functionResult > threshold|| oldChunk.getTimes().size() < measurementLimit) {
+            if (functionResult > threshold || oldChunk.getTimes().size() < measurementLimit) {
                 System.out.println("+");
                 List<String> newTimes = mergeAndFilter(oldChunk, newChunk);
                 oldChunk.setTimes(newTimes);
@@ -116,12 +126,12 @@ public class BaseController {
                 biometryChunkService.biometryChunkRepository.save(oldChunk);
 
             } else {
-                if(functionResult < updateThreshold){
+                if (functionResult < updateThreshold) {
 
                     System.out.println("Wylogowanie dla pary: " + oldChunk.getPair());
                     return false;
 
-                }else {
+                } else {
                     System.out.println("Brak konsekwencji");
                     return true;
                 }

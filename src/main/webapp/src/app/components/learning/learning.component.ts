@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { ReaderService } from 'src/app/reader.service';
-import { BackendService } from 'src/app/services/backend.service';
+import {Component, OnInit} from '@angular/core';
+import {ReaderService} from 'src/app/reader.service';
+import {BackendService} from 'src/app/services/backend.service';
 import {BiometryService} from "../../services/biometry.service";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-learning',
@@ -12,24 +13,29 @@ import {Observable} from "rxjs";
 })
 export class LearningComponent implements OnInit {
 
-  text:string;
+  text: string;
 
-  $words : Observable<any> = this.http.get("/api/word")
+  $words: Observable<any> = this.http.get("/api/word")
 
   constructor(
     private reader: ReaderService,
     private backend: BackendService,
-    private biometry : BiometryService,
-    private http: HttpClient
-    ) {}
+    private biometry: BiometryService,
+    private http: HttpClient,
+    private router: Router
+  ) {
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   save() {
     this.biometry.protect(this.backend.saveLearningSession(this.reader.arr))
       .subscribe(() => {
         this.reader.arr = [];
-        this.text = ""
+        this.text = "";
+
+      }, error => {
       });
   }
 }

@@ -1,11 +1,28 @@
+<div style="width: 80%; margin: auto">
+  <div class="m-2">
+    <h1>Wyniki</h1>
+    <p>Nauczono: <strong>{{((readyCount / chunks.length) * 100).toFixed(2)}}%</strong></p>
+    <p>
+      System wyloguje cię jeśli w pomiarach dla 5 par wykryje niezgodność. Tylko nauczone pary (zielone) będą brane pod
+      uwagę.
+      System tworzy profil użytkownika podczas wpisywania tekstu. Czym większy procent nauczenia tym system będzie mógł
+      łatwiej
+      wykryć niezgodność. Badanie będzie miało sens jeśli system będzie znał przynajmniej 50% par.
+    </p>
+    <button mat-button [routerLink]="'/learning'">Przejdź do nauki</button>
+  </div>
+  <div class="container row m-0">
+    <div *ngFor="let chunk of chunks" class="col-2 col-xl-1 p-0">
+      <span>
+          <mat-card class="m-1" [style]="getStyle(chunk.times.length)" style="color: white;">
+            <mat-card-title>{{chunk.pair}}</mat-card-title>
+            <mat-card-subtitle style="color: white">
+              {{chunk.times.length}} / 21
+            </mat-card-subtitle>
+          </mat-card>
+      </span>
+    </div>
+  </div>
 
-<div style="font-size: larger" class="container row m-0">
-  <span *ngFor="let chunk of $chunks | async" class="col-2 col-md-1" style="padding: 3px;">
-    <mat-card class="m-1" style="min-width: 100px;">
-      <mat-card-title>{{chunk.pair}}</mat-card-title>
-      <mat-card-subtitle [style]="getStyle(chunk.times.length)">
-        {{chunk.times.length}} / 21
-      </mat-card-subtitle>
-    </mat-card>
-  </span>
+
 </div>

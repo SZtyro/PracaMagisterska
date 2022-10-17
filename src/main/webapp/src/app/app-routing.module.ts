@@ -21,6 +21,9 @@ const routes: Routes = [
   },
   {
     path: 'home', component: InfoComponent
+  },
+  {
+    path: '**', redirectTo: 'home'
   }
 ];
 

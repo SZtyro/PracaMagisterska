@@ -17,7 +17,6 @@
         <div style="display: flex; flex-direction: column; justify-content: space-between;height: 100%">
             <div class="column">
 
-
                 <button color="primary" class="menu-btn" mat-button [routerLink]="['home']">
                     <mat-icon>home</mat-icon>
                     {{'home' | translate}}
@@ -25,41 +24,14 @@
 
                 <button color="primary" class="menu-btn" mat-button [routerLink]="['learning']">
                     <mat-icon>school</mat-icon>
-                    {{'learning' | translate}}
+                    {{'Nauka' | translate}}
                 </button>
 
-                <button color="primary" class="menu-btn" mat-button [routerLink]="['tests']">
+                <button color="primary" class="menu-btn" mat-button [routerLink]="['tests']" disabled>
                     <mat-icon>biotech</mat-icon>
-                    {{'tests' | translate}}
+                    {{'Tests' | translate}}
                 </button>
-
-                <button color="primary" class="menu-btn" mat-button [routerLink]="['summarize']">
-                    <mat-icon>summarize</mat-icon>
-                    {{'summarize' | translate}}
-                </button>
-
             </div>
-
-<!--            <div class="column">-->
-<!--                <mat-divider></mat-divider>-->
-
-<!--                <div style="display: flex; width: 100%;">-->
-<!--                  <img [src]="userProfile.picture" alt="User image">-->
-<!--                  <div class="profile-div">-->
-<!--                    <div style="font-weight: bold">{{userProfile.name}}</div>-->
-<!--                    <button (click)="logout()" translate style="width: 100%" mat-button>-->
-<!--                      <mat-icon>logout</mat-icon>-->
-<!--                      {{'log_out' | translate}}-->
-<!--                    </button>-->
-<!--                  </div>-->
-
-<!--                </div>-->
-
-
-
-
-<!--            </div>-->
-
         </div>
 
     </mat-drawer>

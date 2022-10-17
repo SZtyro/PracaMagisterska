@@ -11,7 +11,7 @@ export class KeyReaderDirective {
   //Czass po któym nie liczy zmian ( uzytkownik przestal pisac)
   registeringTime = 2000;
   //Znaki wyciągnięte spod kontroli
-  excluded: string[] = [' ', 'Backspace']
+  excluded: string[] = ['Backspace']
 
   //Dodanie klasy
   @HostBinding('class')
@@ -21,7 +21,8 @@ export class KeyReaderDirective {
 
     if (!this.excluded.includes(e.key)) {
       console.log(e);
-      if (this.lastEvent) {
+
+      if (this.lastEvent && e.key != ' ') {
         let pair = this.lastEvent.key + e.key;
         let i = this.service.arr.findIndex((e) => e.pair == pair);
         let time: number = e.timeStamp - this.lastEvent.timeStamp;
@@ -36,7 +37,10 @@ export class KeyReaderDirective {
           this.lastEvent = null;
 
       }
-      this.lastEvent = e;
+      if (e.key == ' ')
+        this.lastEvent = null
+      else
+        this.lastEvent = e;
 
       console.log(this.service.arr);
       this.service.refreshChart();
