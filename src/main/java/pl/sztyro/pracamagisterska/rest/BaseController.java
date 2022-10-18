@@ -11,8 +11,6 @@ import pl.sztyro.pracamagisterska.service.BiometryChunkService;
 import pl.sztyro.pracamagisterska.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.xml.ws.http.HTTPException;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -29,7 +27,8 @@ public class BaseController {
     final Double defaultWidth = 70.0;
     final int measurementLimit = 21;
     final int measurementMinimum = 2;
-    final int incompatibilitiesCountLimit = 5;
+    final double incompatibilitiesPercentageLimit = 0.35;
+    final int minimalMeasurementToClear = 10;
 
 
     @Autowired
@@ -55,6 +54,9 @@ public class BaseController {
 
     }
 
+    //ja 44 bledne: 13 procentowo 30% zle
+    //m 46 b: 35 76%
+
     @GetMapping("/biometry")
     public List<BiometryChunk> getBiometry(HttpServletRequest request) {
         String email = userController.getProfile(request).getString("email");
@@ -68,7 +70,9 @@ public class BaseController {
         }
     }
 
-    private void checkLoggedUser(User user, BiometryChunk[] chunksToCheck, HttpServletRequest request){
+    private void checkLoggedUser(User user, BiometryChunk[] chunksToCheck, HttpServletRequest request) {
+        //Licznik blednnych par w zapytaniu
+        int counter = 0;
         for (BiometryChunk newChunk : chunksToCheck) {
             BiometryChunk oldChunk = biometryChunkService.getByPairAndUser(newChunk.getPair(), user);
             //System.out.println(chunk.getTimes());
@@ -80,17 +84,27 @@ public class BaseController {
             } else {
                 if (newChunk.getTimes().size() > 0)
                     if (!checkAndUpdate(oldChunk, newChunk)) {
-                        user.setIncompatibilitiesCount(user.getIncompatibilitiesCount() + 1);
-                        if (user.getIncompatibilitiesCount() > incompatibilitiesCountLimit) {
-                            request.getSession().invalidate();
-                            user.setIncompatibilitiesCount(0);
-                            userService.saveUser(user);
-                            throw new ResponseStatusException(
-                                    HttpStatus.UNAUTHORIZED);
-                        } else
-                            userService.saveUser(user);
+                        counter++;
                     }
             }
+        }
+
+        //Wyczyśc licznik błędów jeśli przesłane dane są wystarczająco duże
+        if (chunksToCheck.length > minimalMeasurementToClear) {
+
+            double invalidPercentage = ((double) counter / (double) chunksToCheck.length);
+            System.out.println("\n============\nOdczytów: " + chunksToCheck.length + "\nBłednych par: " + invalidPercentage * 100 + "%\n============");
+            //Wykryto ponad 35% bledow w zapytaniu
+            if (invalidPercentage > incompatibilitiesPercentageLimit) {
+                request.getSession().invalidate();
+                //user.setIncompatibilitiesCount(0);
+                //userService.saveUser(user);
+                throw new ResponseStatusException(
+                        HttpStatus.UNAUTHORIZED,
+                        "Błędny odczyt: " + invalidPercentage * 100 + "%");
+            }
+//            else
+//                userService.saveUser(user);
         }
     }
 
@@ -128,7 +142,7 @@ public class BaseController {
             } else {
                 if (functionResult < updateThreshold) {
 
-                    System.out.println("Wylogowanie dla pary: " + oldChunk.getPair());
+                    System.out.println("Wylogowanie dla pary: " + oldChunk.getPair() + " " + functionResult);
                     return false;
 
                 } else {

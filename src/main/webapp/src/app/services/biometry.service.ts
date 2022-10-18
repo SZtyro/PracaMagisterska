@@ -36,6 +36,7 @@ export class BiometryService {
               },
               error => {
                 if (error.status == 302 || error.status == 401) {
+                  alert("Zostaniesz wylogowany z powodu wykrycia podejrzanych zachowań. " + error.error.message)
                   window.location.reload();
                 }
               }

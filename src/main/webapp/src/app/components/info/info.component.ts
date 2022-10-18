@@ -32,7 +32,17 @@ export class InfoComponent implements OnInit {
           this.readyCount++;
         }
       })
+
+      this.chunks = this.chunks.filter(e => e.times.length > 3);
     })
+  }
+
+  getAvgTime(arr:number[]){
+    let sum = 0;
+    arr.forEach(value => {
+      sum += Number(value);
+    })
+    return (sum/arr.length).toFixed(1);
   }
 
 }
