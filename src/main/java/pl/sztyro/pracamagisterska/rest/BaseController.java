@@ -27,7 +27,7 @@ public class BaseController {
     final Double defaultWidth = 70.0;
     final int measurementLimit = 21;
     final int measurementMinimum = 2;
-    final double incompatibilitiesPercentageLimit = 0.35;
+    final double incompatibilitiesPercentageLimit = 0.20;
     final int minimalMeasurementToClear = 10;
 
 
