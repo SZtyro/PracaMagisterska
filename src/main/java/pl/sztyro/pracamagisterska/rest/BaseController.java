@@ -93,7 +93,7 @@ public class BaseController {
         if (chunksToCheck.length > minimalMeasurementToClear) {
 
             double invalidPercentage = ((double) counter / (double) chunksToCheck.length);
-            System.out.println("\n============\nOdczytów: " + chunksToCheck.length + "\nBłednych par: " + invalidPercentage * 100 + "%\n============");
+            System.out.println("\n============|| " + user.getEmail() + " ||============\nOdczytów: " + chunksToCheck.length + "\nBłednych par: " + invalidPercentage * 100 + "%\n========================");
             //Wykryto ponad 35% bledow w zapytaniu
             if (invalidPercentage > incompatibilitiesPercentageLimit) {
                 request.getSession().invalidate();
@@ -101,7 +101,7 @@ public class BaseController {
                 //userService.saveUser(user);
                 throw new ResponseStatusException(
                         HttpStatus.UNAUTHORIZED,
-                        "Błędny odczyt: " + invalidPercentage * 100 + "%");
+                        "Procent błędnych odczytów: " + invalidPercentage * 100 + "%");
             }
 //            else
 //                userService.saveUser(user);

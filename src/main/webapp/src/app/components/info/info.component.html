@@ -1,25 +1,30 @@
 <div style="width: 80%; margin: auto">
   <div class="m-2">
     <h1>Wyniki</h1>
-    <p>Nauczono: <strong>{{chunks.length > 0 ? (((readyCount / chunks.length) * 100).toFixed(2)) : '0.00'}}%</strong></p>
+    <p>Nauczono: <strong>{{chunks.length > 0 ? (((readyCount / chunks.length) * 100).toFixed(2)) : '0.00'}}%</strong>
+    </p>
     <p>
-      System wyloguje cię jeśli w pomiarach dla 5 par wykryje niezgodność. Tylko nauczone pary (zielone) będą brane pod
-      uwagę.
-      System tworzy profil użytkownika podczas wpisywania tekstu. Czym większy procent nauczenia tym system będzie mógł
-      łatwiej
-      wykryć niezgodność. Badanie będzie miało sens jeśli system będzie znał przynajmniej 50% par.
+      System uczy się twojego sposobu używania klawiatury mierząc czas pomiędzy przyciskami. Zostaniesz wylogowany
+      jeśli zostanie wykryta niezgodność przy ponad 20% pomiarach. Tylko nauczone pary (zielone) będą brane pod
+      uwagę. Algorytm tworzy profil użytkownika podczas wpisywania tekstu. Czym większy procent nauczenia tym system
+      będzie mógł
+      łatwiej wykryć niezgodność. Badanie będzie wiarygodne jeśli system będzie znał przynajmniej <strong>75%
+      par</strong>.
+      Po przekroczeniu tej granicy, pozwól wypełnić test innej osobie (pozostając ciągle zalogowanym). Jeśli zostanie
+      wylogowana
+      (lub wyświetli się odpowiedni komuniakat) zapisz wynik (procent błędów).
     </p>
     <button mat-button [routerLink]="'/learning'">Przejdź do nauki</button>
   </div>
   <div class="container row" style="margin: auto">
-    <div *ngFor="let chunk of chunks" class="col-2 col-xl-1 p-0">
+    <div *ngFor="let chunk of chunks" class="col-2 p-0">
       <span>
           <mat-card class="m-1" [style]="getStyle(chunk.times.length)" style="color: white;">
             <mat-card-title>{{chunk.pair}}</mat-card-title>
-            <mat-card-subtitle style="color: white">
-              {{chunk.times.length}} / 21
+            <mat-card-subtitle style="color: white; display: flex; justify-content: space-between">
+              <strong>{{chunk.times.length}} / 21</strong><span>{{getAvgTime(chunk.times)}} ms</span>
             </mat-card-subtitle>
-            {{getAvgTime(chunk.times)}} ms
+
           </mat-card>
       </span>
     </div>

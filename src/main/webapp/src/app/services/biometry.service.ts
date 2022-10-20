@@ -36,7 +36,11 @@ export class BiometryService {
               },
               error => {
                 if (error.status == 302 || error.status == 401) {
-                  alert("Zostaniesz wylogowany z powodu wykrycia podejrzanych zachowań. " + error.error.message)
+                  let results: any[] = JSON.parse(localStorage.getItem("results"));
+                  if (!results) results = [];
+                  results.push({msg: error.error.message, date: new Date()});
+                  localStorage.setItem("results",JSON.stringify(results));
+                  alert("Zostaniesz wylogowany z powodu wykrycia podejrzanych zachowań. Przepisz wynik: " + error.error.message)
                   window.location.reload();
                 }
               }
